@@ -1,0 +1,15 @@
+ul > li {
+  font-size: 1.8em;
+}
+p {
+  font-size: 1.5em;
+}
+.cocktail-name{
+  font-size: 3em;
+}
+h2 {
+  font-weight: bold;
+}
+.cocktail-notes {
+  white-space: pre-line;
+}
