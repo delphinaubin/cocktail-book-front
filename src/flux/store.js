@@ -1,9 +1,11 @@
-import { createStore, combineReducers } from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 import cocktailReducer from './cocktail/cocktailReducer';
 import cocktailInCreationReducer from './cocktail/cocktailInCreationReducer';
 import ingredientReducer from './ingredient/ingredientReducer';
 import ingredientCreationReducer from './ingredient/ingredientCreationReducer';
 import cocktailInViewReducer from './cocktail/cocktailInViewReducer';
+
 
 export default createStore(
   combineReducers({
@@ -13,6 +15,8 @@ export default createStore(
     ingredients: ingredientReducer,
     ingredientInCreation: ingredientCreationReducer,
   }),
+
   /* eslint-disable-next-line no-underscore-dangle */
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  applyMiddleware(ReduxThunk),
 );

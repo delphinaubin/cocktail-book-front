@@ -1,9 +1,12 @@
-const initialState = [
-  { id: '1', name: 'Mojito' },
-  { id: '2', name: 'Mai taï' },
-  { id: '3', name: 'Russian spring punch' },
-  { id: '4', name: 'Gin basil smash' },
-];
+import { ACTION_TYPES } from './fetchCocktailAction';
 
-
-export default (state = initialState) => state;
+export default (state = [], action) => {
+  switch (action.type) {
+    case ACTION_TYPES.FETCH_COCKTAILS_SUCCESS: {
+      return action.cocktails;
+    }
+    default: {
+      return state;
+    }
+  }
+};
