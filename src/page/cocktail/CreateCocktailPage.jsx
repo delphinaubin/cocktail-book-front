@@ -10,6 +10,7 @@ import PageTitle from '../../component/PageTitle';
 import CocktailComponentInput from '../../component/cocktail/CocktailComponentInput';
 import CocktailShape from '../../shape/CocktailShape';
 import IngredientShape from '../../shape/IngredientShape';
+import { fetchIngredientsAction } from '../../flux/ingredient/fetchIngredientAction';
 
 
 const containerStyle = {
@@ -25,9 +26,12 @@ const inputStyle = {
   state => ({
     cocktail: state.cocktailInCreation,
     ingredients: state.ingredients,
-  }), dispatch => bindActionCreators(
-    { changeCocktailInCreation: changeCocktailInCreationAction }, dispatch,
-  ),
+  }), dispatch => ({
+    ...bindActionCreators(
+      { changeCocktailInCreation: changeCocktailInCreationAction }, dispatch,
+    ),
+    fetchIngredients: () => dispatch(fetchIngredientsAction()),
+  }),
 )
 export default class CreateCocktailPage extends React.PureComponent {
   static defaultPros = {
@@ -41,11 +45,17 @@ export default class CreateCocktailPage extends React.PureComponent {
     cocktail: CocktailShape,
     ingredients: PropTypes.arrayOf(IngredientShape),
     changeCocktailInCreation: PropTypes.func.isRequired,
+    fetchIngredients: PropTypes.func.isRequired,
   };
 
   static defaultProps = {
     cocktail: { name: '' },
     ingredients: [],
+  }
+
+  componentDidMount() {
+    const { fetchIngredients } = this.props;
+    fetchIngredients();
   }
 
   onCocktailNameChange = (event) => {

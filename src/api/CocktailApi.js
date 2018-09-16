@@ -1,8 +1,7 @@
 import axios from 'axios';
-
-const API_URL = 'http://localhost:3001';
+import variables from '../variables';
 /* eslint-disable-next-line */
 export const fetchCocktails = async () => {
-  const response = await axios.get(`${API_URL}/cocktails`);
+  const response = await axios.get(`${variables.API_URL}/cocktails`);
   return response.data;
 };

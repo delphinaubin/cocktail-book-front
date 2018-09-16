@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PageTitle from '../../component/PageTitle';
 import ColorSelect from '../../component/color/ColorSelect';
-import { changeIngredientInCreation as changeIngredientInCreationAction } from '../../flux/ingredient/ingredientCreationAction';
+import { changeIngredientInCreation as changeIngredientInCreationAction, saveIngredientAction } from '../../flux/ingredient/ingredientCreationAction';
 import IngredientShape from '../../shape/IngredientShape';
 
 const { Option } = Select;
@@ -28,14 +28,18 @@ const buttonStyle = {
 
 @connect(state => ({
   ingredient: state.ingredientInCreation,
-}), dispatch => bindActionCreators(
-  { changeIngredientInCreation: changeIngredientInCreationAction },
-  dispatch,
-))
+}), dispatch => ({
+  ...bindActionCreators(
+    { changeIngredientInCreation: changeIngredientInCreationAction },
+    dispatch,
+  ),
+  saveIngredient: ingredient => dispatch(saveIngredientAction(ingredient)),
+}))
 export default class CreateIngredientPage extends React.PureComponent {
   static propTypes = {
     ingredient: IngredientShape.isRequired,
     changeIngredientInCreation: PropTypes.func.isRequired,
+    saveIngredient: PropTypes.func.isRequired,
   }
 
   onNameChange = (event) => {
@@ -61,6 +65,11 @@ export default class CreateIngredientPage extends React.PureComponent {
       color: changedValue,
     });
   };
+
+  saveIngredient = () => {
+    const { saveIngredient, ingredient } = this.props;
+    saveIngredient(ingredient);
+  }
 
   render() {
     const { ingredient } = this.props;
@@ -90,7 +99,12 @@ export default class CreateIngredientPage extends React.PureComponent {
             style={inputStyle}
             onChange={this.onColorChange}
           />
-          <Button style={buttonStyle}>Add to the book</Button>
+          <Button
+            style={buttonStyle}
+            onClick={this.saveIngredient}
+          >
+            Add to the book
+          </Button>
         </Card>
       </React.Fragment>
     );
